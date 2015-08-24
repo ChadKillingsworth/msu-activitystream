@@ -1,0 +1,278 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="msu-activitystreamitem.html">
+
+<!--
+The Missouri State activity stream
+
+Example:
+
+    <msu-activitystream></msu-activitystream>
+
+@demo
+-->
+<dom-module id="msu-activitystream">
+
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    ul, li {list-style-type:none;display:block;margin:0;padding:0;}
+
+    .ActivityStreamLoader {
+      font-size: 10px;
+      margin: 6em auto;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      position: relative;
+      text-indent: -9999em;
+      -webkit-animation: Load4 1.3s infinite linear;
+      animation: Load4 1.3s infinite linear;
+    }
+    @-webkit-keyframes Load4 {
+      0%,
+      100% {
+        box-shadow: 0em -3em 0em 0.2em #D0D0D0, 2em -2em 0 0em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 0em #D0D0D0;
+      }
+      12.5% {
+        box-shadow: 0em -3em 0em 0em #D0D0D0, 2em -2em 0 0.2em #D0D0D0, 3em 0em 0 0em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      25% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 0em #D0D0D0, 3em 0em 0 0.2em #D0D0D0, 2em 2em 0 0em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      37.5% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 0em #D0D0D0, 2em 2em 0 0.2em #D0D0D0, 0em 3em 0 0em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      50% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 0em #D0D0D0, 0em 3em 0 0.2em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      62.5% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 0em #D0D0D0, -2em 2em 0 0.2em #D0D0D0, -3em 0em 0 0em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      75% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 0.2em #D0D0D0, -2em -2em 0 0em #D0D0D0;
+      }
+      87.5% {
+        box-shadow: 0em -3em 0em 0em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 0em #D0D0D0, -2em -2em 0 0.2em #D0D0D0;
+      }
+    }
+    @keyframes Load4 {
+      0%,
+      100% {
+        box-shadow: 0em -3em 0em 0.2em #D0D0D0, 2em -2em 0 0em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 0em #D0D0D0;
+      }
+      12.5% {
+        box-shadow: 0em -3em 0em 0em #D0D0D0, 2em -2em 0 0.2em #D0D0D0, 3em 0em 0 0em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      25% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 0em #D0D0D0, 3em 0em 0 0.2em #D0D0D0, 2em 2em 0 0em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      37.5% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 0em #D0D0D0, 2em 2em 0 0.2em #D0D0D0, 0em 3em 0 0em #D0D0D0, -2em 2em 0 -0.5em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      50% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 0em #D0D0D0, 0em 3em 0 0.2em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 -0.5em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      62.5% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 0em #D0D0D0, -2em 2em 0 0.2em #D0D0D0, -3em 0em 0 0em #D0D0D0, -2em -2em 0 -0.5em #D0D0D0;
+      }
+      75% {
+        box-shadow: 0em -3em 0em -0.5em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 0.2em #D0D0D0, -2em -2em 0 0em #D0D0D0;
+      }
+      87.5% {
+        box-shadow: 0em -3em 0em 0em #D0D0D0, 2em -2em 0 -0.5em #D0D0D0, 3em 0em 0 -0.5em #D0D0D0, 2em 2em 0 -0.5em #D0D0D0, 0em 3em 0 -0.5em #D0D0D0, -2em 2em 0 0em #D0D0D0, -3em 0em 0 0em #D0D0D0, -2em -2em 0 0.2em #D0D0D0;
+      }
+    }
+  </style>
+
+  <template>
+    <template is="dom-if" if="{{loading}}">
+      <div class="ActivityStreamLoader">Loading...</div>
+    </template>
+
+    <template is="dom-if" if="{{items.length}}">
+      <ul>
+        <template is="dom-repeat" items="{{items}}">
+          <li><msu-activitystreamitem item="{{item}}" width="{{width}}"></msu-activitystreamitem></li>
+        </template>
+      </ul>
+    </template>
+
+    <template is="dom-if" if="{{_hasNoItems(loading, items)}}">
+      <p>Unable to retrieve activity stream.</p>
+    </template>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'msu-activitystream',
+
+    properties: {
+      items: {
+        type: Array,
+        value: []
+      },
+
+      count: {
+        type: Number,
+        value: 10,
+        observer: '_optsChanged'
+      },
+
+      audience: {
+        type: String,
+        value: null,
+        observer: '_optsChanged'
+      },
+
+      group: {
+        type: String,
+        value: null,
+        observer: '_optsChanged'
+      },
+
+      tags: {
+        type: String,
+        value: null,
+        observer: '_optsChanged'
+      },
+
+      width: {
+        type: Number,
+        value: -1
+      },
+
+      loading: {
+        type: Boolean,
+        value: true,
+        notify: true
+      }
+    },
+
+    ready: function() {
+      this._isReady = true;
+      this._optsChanged();
+    },
+
+    attached: function() {
+      this._doResize();
+      this._boundResize = this._resize.bind(this);
+      window.addEventListener('resize', this._boundResize, false);
+    },
+
+    detached: function() {
+      window.removeEventListener('resize', this._boundResize, false);
+    },
+
+    _optsChanged: function() {
+      if (!this._isReady) {
+        return;
+      }
+      var params = ['dpr=' + ((window.devicePixelRatio || 1) ? 2 : 1)];
+      if (!this.count || this.count < 11) {
+        this.count = 10;
+      }
+      params.push('count=' +
+          encodeURIComponent(Math.round(this.count * 1.25)));
+
+      if (this.group) {
+        params.push('group=' + encodeURIComponent(this.group));
+      }
+
+      if (this.audience) {
+        params.push('audience=' + encodeURIComponent(this.audience));
+      }
+
+      if (this.tags) {
+        params.push('tags=' + encodeURIComponent(this.tags));
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener('readystatechange', this._xhrReadyStateChanged.bind(this), true);
+      xhr.open('GET', '//missouristate.info/feeds/ActivityStream3.aspx?' + params.join('&'), true);
+      xhr.send();
+    },
+
+    _xhrReadyStateChanged: function(evt) {
+      if (evt.currentTarget.readyState !== 4) {
+        return;
+      }
+
+      if (evt.currentTarget.status !== 200) {
+        console.log('xhr error status: ' + evt.currentTarget.status);
+        this.loading = false;
+        return;
+      }
+
+      var items = JSON.parse(evt.currentTarget.responseText);
+
+      if (!items || items.length === 0) {
+        this.loading = false;
+        this.items = [];
+        return;
+      }
+
+      var blob, scriptsrc = [this._REMOVE_DUPLICATES_SCRIPT],
+          blobOpts = {'type': 'application/javascript'};
+      if ('Blob' in window) {
+        blob = new Blob(scriptsrc, blobOpts);
+      } else {
+        blob = new window['webkitBlob'](scriptsrc, blobOpts);
+      }
+      this._blobUrl = URL.createObjectURL(blob);
+
+      var worker = new Worker(this._blobUrl);
+      worker.addEventListener('message', this._workerMessage.bind(this), false);
+      worker.postMessage({
+        'items': items,
+        'count': this.count
+      });
+    },
+
+    _workerMessage: function(evt) {
+      evt.currentTarget.terminate();
+      URL.revokeObjectURL(this._blobUrl || '');
+      this._blobUrl = null;
+
+      this.items = evt.data;
+      this.loading = false;
+    },
+
+    _hasNoItems: function(loading, items) {
+      return !loading && items.length === 0;
+    },
+
+    _resize: function(evt) {
+      if (this._resizeTimeout) {
+        this.cancelAsync(this._resizeTimeout);
+      }
+
+      this._resizeTimeout = this.async(this._doResize.bind(this), 200);
+    },
+
+    _doResize: function() {
+      this.width = this.getBoundingClientRect().width;
+      console.log(this.width);
+    },
+
+    /**
+     * This is a web worker script source used to de-duplicate activity stream items.
+     * The script is generated by compiling the remove_duplicates script with closure-compiler.
+     * It depends on FuzzySet, but has no other dependencies.
+     *
+     * @const
+     */
+    _REMOVE_DUPLICATES_SCRIPT: 'function w(b,a,k,e){b=b||[];this.d=k||2;this.e=e||3;this.f=a||!0;this.b={};this.a={};this.c={};for(a=this.d;a<this.e+1;++a)this.c[a]=[];for(a=0;a<b.length;++a)A(this,b[a])}' +
+        'function B(b,a){if(null===b&&null===a)throw"Trying to compare two null values";if(null===b||null===a)return 0;b=String(b);a=String(a);var k;k=b;for(var e=a,h=[],c,f,l=0;l<=e.length;l++)for(var d=0;d<=k.length;d++)l&&d?k.charAt(d-1)===e.charAt(l-1)?f=c:f=Math.min(h[d],h[d-1],c)+1:f=l+d,c=h[d],h[d]=f;k=h.pop();return b.length>a.length?1-k/b.length:1-k/a.length}var C=/[^\w, ]+/;' +
+        'function D(b,a){var k={},e=b,h=a||2,h=h||2,c="-"+e.toLowerCase().replace(C,"")+"-",f=h-c.length,l=[];if(0<f)for(var d=0;d<f;++d)e+="-";for(d=0;d<c.length-h+1;++d)l.push(c.slice(d,d+h));for(e=0;e<l.length;++e)k[l[e]]=l[e]in k?k[l[e]]+1:1;return k}function E(b,a){return b[0]<a[0]?1:b[0]>a[0]?-1:0}' +
+        'function A(b,a){if(!(F(a)in b.b))for(var k=b.d;k<b.e+1;++k){var e=b,h=a,c=k,f=F(h),l=e.c[c]||[],d=l.length;l.push(0);var t=D(f,c),m=0,p=void 0,v=void 0;for(p in t)v=t[p],m+=Math.pow(v,2),p in e.a?e.a[p].push([d,v]):e.a[p]=[[d,v]];l[d]=[Math.sqrt(m),f];e.c[c]=l;e.b[f]=h}}function F(b){if("[object String]"!==Object.prototype.toString.call(b))throw"Must use a string as argument to FuzzySet functions";return b.toLowerCase()}' +
+        'w.prototype.length=function(){var b=0,a;for(a in this.b)this.b.hasOwnProperty(a)&&(b+=1);return b};self.onmessage=function(b){var a=b.data.items;b=b.data.count;var k=/\<[^\>]+\>/g,e=[],h,c,f,l=new w(void 0,!1,3,3),d;for(c=a.length-1;0<=c;c--)if(a[c].joinedText="",0<(a[c].Message||"").length&&(a[c].joinedText+=" "+a[c].Message.replace(k,"")),0<(a[c].Title||"").length&&(a[c].joinedText+=" "+a[c].Title),0<(a[c].Description||"").length&&(a[c].joinedText+=" "+a[c].Description.replace(k,"")),0===a[c].joinedText.length)e.unshift(a[c]);else{if(0===l.length())d=[];else{h=[];a:{f=l;d=a[c].joinedText;var t=' +
+        'F(d);if(t=f.b[t])f=[[1,t]];else{for(var m=[],t=f.e;t>=f.d;--t){var m=f,p=t,v=F(d),q={},u=D(v,p),p=m.c[p],n=0,r=void 0,x=void 0,g=void 0,y=void 0,z=void 0;for(r in u)if(x=u[r],n+=Math.pow(x,2),r in m.a)for(g=0;g<m.a[r].length;++g)y=m.a[r][g][0],z=m.a[r][g][1],q[y]=y in q?q[y]+x*z:x*z;c:{g=q;u=void 0;for(u in g)if(g.hasOwnProperty(u)){g=!1;break c}g=!0}if(g)m=null;else{g=Math.sqrt(n);n=[];r=u=void 0;for(r in q)u=q[r],n.push([u/(g*p[r][0]),p[r][1]]);n.sort(E);if(m.f){q=[];p=Math.min(50,n.length);for(g=' +
+        '0;g<p;++g)q.push([B(n[g][1],v),n[g][1]]);n=q;n.sort(E)}q=[];for(g=0;g<n.length;++g)n[g][0]==n[0][0]&&q.push([n[g][0],m.b[n[g][1]]]);m=q}if(m){f=m;break a}}f=null}}d=!f&&h?h:f}h=!1;for(f=0;f<d.length;f++)if(.6<=d[f][0]){h=!0;break}h||(A(l,a[c].joinedText),e.unshift(a[c]))}e.length>b&&(e=e.slice(0,b));self.postMessage(e)};'
+  });
+
+</script>

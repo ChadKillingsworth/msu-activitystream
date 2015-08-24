@@ -1,0 +1,270 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+A individual social media post for use in the msu activity stream
+
+Example:
+
+    <msu-activitystreamitem></msu-activitystreamitem>
+
+@demo
+-->
+<dom-module id="msu-activitystreamitem">
+
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    img.Favorite { float: right; margin: 0 0 20px 10px; }
+    #Media { position:relative; margin-bottom:20px; background-repeat:no-repeat; background-position:center center;background-color: #F2F2F3;-webkit-transition:height 500ms ease-out; -moz-transition:height 500ms ease-out; transition: height 500ms ease-out;}
+    .Toggle { position:absolute;cursor:pointer;width:32px;height:32px;right:15px;bottom:15px;background: transparent url(//missouristate.info/images/2013/stream_expand_collapse.png) scroll no-repeat top left; }
+    .Title {font-size:20px;font-weight:bold;line-height:24px;margin-bottom:20px;display:block;text-decoration:none;color:#303031;}
+    .Message {margin-bottom:20px;}
+    .External {color:#747474;border-left:5px solid #747474;padding-left:15px;margin-bottom:20px;}
+    .External .Title{color:#747474;}
+    .MetaWrapper{padding-bottom:20px;}
+    .Meta {display:table;border-collapse:collapse;width:100%;}
+    .Avatar {display:table-cell;vertical-align:middle;position:relative;width:36px;}
+    .Avatar img  {-webkit-border-radius:18px;-moz-border-radius:18px;border-radius:18px;}
+    .Avatar img.Reshared  {position:absolute;bottom:6px;right:3px;border:2px solid white;-webkit-border-radius:9px;-moz-border-radius:9px;border-radius:9px;}
+    .Info {font-size:14px;line-height:17px;color:#747474;display:table-cell;vertical-align:middle;padding-left:10px;}
+    .Info a{text-decoration:none;color:#747474;}
+    .Author, .Desc {display:block;}
+  </style>
+
+  <template>
+    <div id="Media" style$="{{mediaStyles}}" on-tap="mediaClicked">
+      <span class="Toggle" style$="{{toggleStyles}}"></span>
+    </div>
+    <img class="Favorite" alt="Starred Post" src="//missouristate.info/images/2013/stream-favorite.png" width="30" height="29" style$="[[_hideIfNotDefined(item.isStarred)]]" />
+    <a id="Title" class="Title" href="[[item.PostLink]]" style$="[[_mainTitleStyles()]]"></a>
+    <div id="Message" class="Message" style$="[[_hideIfNotDefined(item.Message)]]"></div>
+    <div class="External" styles$="[[_externalStyles()]]">
+      <a id="ExternalTitle" class="Title" href="[[item.ExternalLink]]" style$="[[_hideIfNotDefined(item.Title)]]"></a>
+      <div id="Description" class="Description" style$="[[_hideIfNotDefined(item.Description)]]"></div>
+    </div>
+    <div class="MetaWrapper"><div class="Meta">
+      <div class="Avatar">
+        <a href="[[item.PostLink]]">
+          <template is="dom-if" if="[[!_isOriginal(item)]]">
+            <img alt="[[item.OriginalAuthor']]" src="[[item.OriginalAuthorAvatar]]" width="36" height="36" />
+		    <img alt="" src="[[item.Avatar]]" width="14" height="14" class="Reshared" />
+          </template>
+          <template is="dom-if" if="[[_isOriginal(item)]]">
+            <img alt="" src="[[item.Avatar]]" width="36" height="36" />
+          </template>
+        </a>
+      </div>
+      <div class="Info">
+        <a href="[[item.PostLink]]">
+          <span class="Author">[[_authorName(item)]]</span>
+          <span class="Desc">
+            <span>[[item.ItemDateText]]</span>
+            &bull;
+            <span class="SourceType">[[_formattedSourceType(item.SourceType)]]</span>
+          </span>
+        </a>
+      </div>
+    </div></div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'msu-activitystreamitem',
+
+    properties: {
+      item: Object,
+
+      width: {
+        type: Number,
+        value: -1,
+        notify: true,
+        observer: '_setMediaStyles'
+      },
+
+      toggleStyles: {
+        type: String,
+        value: 'display:none'
+      },
+
+      mediaStyles: {
+        type: String,
+        value: 'display:none'
+      },
+
+      expanded: {
+        type: Boolean,
+        value: false,
+        notify: false
+      }
+    },
+
+    ready: function() {
+      if (!this.item) {
+        return;
+      }
+
+      if(this.isRichItem(this.item.SourceType)) {
+        if (this.item.Title) {
+          this.$.ExternalTitle.innerHTML = this.item.Title;
+        }
+        if (this.item.Description) {
+          this.$.Description.innerHTML = this.item.Description;
+        }
+      } else {
+        if (this.item.Title) {
+          this.$.Title.innerHTML = this.item.Title;
+        }
+      }
+      if (this.item.Message) {
+        this.$.Message.innerHTML = this.item.Message;
+      }
+    },
+
+    attached: function() {
+      if (this.width < 0) {
+        this.width = this.getBoundingClientRect().width;
+      }
+      this._setMediaStyles();
+    },
+
+    /**
+     * @param {!string} sourceType
+     * @return {boolean}
+     */
+    isRichItem: function(sourceType) {
+      switch(sourceType.toLowerCase()) {
+        case 'rss':
+        case 'atom':
+        case 'instagram':
+        case 'youtube':
+          return false;
+        default:
+          return true;
+      }
+    },
+
+    // Element Behavior
+    /**
+     * @param {!string} sourceType
+     * @return {!string}
+     */
+    _formattedSourceType: function(sourceType) {
+      if (sourceType === "Rss" || sourceType === "Atom") {
+        return 'Blog feed';
+      }
+      return sourceType;
+    },
+
+    /**
+     * @param {Object} item
+     * @return {boolean}
+     */
+    _isOriginal: function(item) {
+      return !item.OriginalAuthor;
+    },
+
+    /**
+     * @param {Object} item
+     * @return {!string}
+     */
+    _authorName: function(item) {
+      return item.OriginalAuthor || item.Author;
+    },
+
+    /**
+     * @param {boolean=} expanded
+     */
+    _setMediaStyles: function() {
+      if (this.width < 0 || !this.item || !this.item.PreviewImage) {
+        return 'display:none';
+      }
+
+      var imgHeight = this.item.PreviewImageHeight;
+      var imgWidth = this.item.PreviewImageWidth;
+
+      if (imgWidth >= (this.width * .75)) {
+        imgHeight = Math.round(this.width * imgHeight / imgWidth);
+        imgWidth = this.width;
+      }
+      var maxHeight = Math.round(this.width * 9 / 16);
+
+      if (!this.expanded) {
+        if (imgHeight <= maxHeight) {
+          this.toggleStyles = 'display:none';
+        } else {
+          imgHeight = maxHeight;
+          this.toggleStyles = 'background-position: top left';
+        }
+      } else if (imgHeight > maxHeight) {
+        this.toggleStyles = 'background-position: top right';
+      }
+
+      var styles = {
+        'background-size': '',
+        'background-image': '',
+        'height': imgHeight + 'px'
+      };
+      if (this.item.isVideo) {
+        styles['background-size'] = '36px 36px, ';
+        styles['background-image'] = "url('//missouristate.info/images/2013/video-play.png'), ";
+        styles['cursor'] = 'pointer';
+      }
+      if (imgWidth >= this.width *.75) {
+        styles['background-size'] += '100% auto';
+      } else {
+        styles['background-size'] += 'auto';
+      }
+      styles['background-image'] += "url('" + this.item.PreviewImage + "')";
+
+      var styleString = ''
+      for (var key in styles) {
+        if (styleString.length > 0) {
+          styleString += ';';
+        }
+        styleString += key + ':' + styles[key];
+      }
+      this.mediaStyles = styleString;
+    },
+
+    /**
+     * @param {*} prop
+     * @return {!string}
+     */
+    _hideIfNotDefined: function(prop) {
+      return prop ? '' : 'display:none';
+    },
+
+    /** @return {!string} */
+    _mainTitleStyles: function() {
+      return !this.item || this.isRichItem(this.item.SourceType) || !this.item.Title ? 'display:none' : '';
+    },
+
+    /** @return {!string} */
+    _externalStyles: function() {
+      if (!this.item || !this.isRichItem()) {
+        return 'display:none';
+      } else if (this.item.Title || this.item.Description) {
+        return '';
+      } else {
+        return 'display:none';
+      }
+    },
+
+    /** @param {!Event} evt */
+    mediaClicked: function(evt) {
+      if (this.item.isVideo) {
+        location.href = this.item.PostLink;
+        return;
+      }
+
+      this.expanded = !this.expanded;
+      this._setMediaStyles();
+    }
+  });
+
+</script>
