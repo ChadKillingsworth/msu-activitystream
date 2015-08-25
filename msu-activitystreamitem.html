@@ -35,7 +35,7 @@ Example:
   </style>
 
   <template>
-    <div id="Media" style$="{{mediaStyles}}" on-tap="mediaClicked">
+    <div id="Media" style$="{{mediaStyles}}" on-tap="_mediaClicked">
       <span class="Toggle" style$="{{toggleStyles}}"></span>
     </div>
     <img class="Favorite" alt="Starred Post" src="//missouristate.info/images/2013/stream-favorite.png" width="30" height="29" style$="[[_hideIfNotDefined(item.isStarred)]]" />
@@ -108,7 +108,7 @@ Example:
         return;
       }
 
-      if(this.isRichItem(this.item.SourceType)) {
+      if(this._isRichItem(this.item.SourceType)) {
         if (this.item.Title) {
           this.$.ExternalTitle.innerHTML = this.item.Title;
         }
@@ -136,7 +136,7 @@ Example:
      * @param {!string} sourceType
      * @return {boolean}
      */
-    isRichItem: function(sourceType) {
+    _isRichItem: function(sourceType) {
       switch(sourceType.toLowerCase()) {
         case 'rss':
         case 'atom':
@@ -241,12 +241,12 @@ Example:
 
     /** @return {!string} */
     _mainTitleStyles: function() {
-      return !this.item || this.isRichItem(this.item.SourceType) || !this.item.Title ? 'display:none' : '';
+      return !this.item || this._isRichItem(this.item.SourceType) || !this.item.Title ? 'display:none' : '';
     },
 
     /** @return {!string} */
     _externalStyles: function() {
-      if (!this.item || !this.isRichItem()) {
+      if (!this.item || !this._isRichItem()) {
         return 'display:none';
       } else if (this.item.Title || this.item.Description) {
         return '';
@@ -256,7 +256,7 @@ Example:
     },
 
     /** @param {!Event} evt */
-    mediaClicked: function(evt) {
+    _mediaClicked: function(evt) {
       if (this.item.isVideo) {
         location.href = this.item.PostLink;
         return;

@@ -155,7 +155,7 @@ Example:
 
     ready: function() {
       this._isReady = true;
-      this._optsChanged();
+      this._optsChanged(undefined, undefined, true);
     },
 
     attached: function() {
@@ -168,10 +168,15 @@ Example:
       window.removeEventListener('resize', this._boundResize, false);
     },
 
-    _optsChanged: function() {
+    /** @param {boolean=} initialCall */
+    _optsChanged: function(oldVal, newVal, initialCall) {
       if (!this._isReady) {
         return;
+      } else if (!initialCall) {
+        this.items = [];
+        this.loading = true;
       }
+
       var params = ['dpr=' + ((window.devicePixelRatio || 1) ? 2 : 1)];
       if (!this.count || this.count < 11) {
         this.count = 10;
@@ -256,7 +261,6 @@ Example:
 
     _doResize: function() {
       this.width = this.getBoundingClientRect().width;
-      console.log(this.width);
     },
 
     /**
@@ -274,5 +278,4 @@ Example:
         'F(d);if(t=f.b[t])f=[[1,t]];else{for(var m=[],t=f.e;t>=f.d;--t){var m=f,p=t,v=F(d),q={},u=D(v,p),p=m.c[p],n=0,r=void 0,x=void 0,g=void 0,y=void 0,z=void 0;for(r in u)if(x=u[r],n+=Math.pow(x,2),r in m.a)for(g=0;g<m.a[r].length;++g)y=m.a[r][g][0],z=m.a[r][g][1],q[y]=y in q?q[y]+x*z:x*z;c:{g=q;u=void 0;for(u in g)if(g.hasOwnProperty(u)){g=!1;break c}g=!0}if(g)m=null;else{g=Math.sqrt(n);n=[];r=u=void 0;for(r in q)u=q[r],n.push([u/(g*p[r][0]),p[r][1]]);n.sort(E);if(m.f){q=[];p=Math.min(50,n.length);for(g=' +
         '0;g<p;++g)q.push([B(n[g][1],v),n[g][1]]);n=q;n.sort(E)}q=[];for(g=0;g<n.length;++g)n[g][0]==n[0][0]&&q.push([n[g][0],m.b[n[g][1]]]);m=q}if(m){f=m;break a}}f=null}}d=!f&&h?h:f}h=!1;for(f=0;f<d.length;f++)if(.6<=d[f][0]){h=!0;break}h||(A(l,a[c].joinedText),e.unshift(a[c]))}e.length>b&&(e=e.slice(0,b));self.postMessage(e)};'
   });
-
 </script>
