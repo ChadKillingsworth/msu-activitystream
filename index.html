@@ -1,29 +1,171 @@
-<!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-<html>
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
 <head>
+  <meta charset="UTF-8" />
+  <title>Activity Stream - Web Components Demo - Missouri State University</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Activity Stream" />
+  <meta itemprop="name" content="Activity Stream" />
+  <meta name="theme-color" content="#5E0009" />
+  <link rel="Stylesheet" media="all" href="//missouristate.info/styles/2015/global.aspx" />
+  <style>/*<img src="https://missouristate.info/images/2015/template/facebook_share.jpg" width="1200" height="630" />*/</style>
+  <script src="//missouristate.info/scripts/2015/common.js"></script>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../iron-component-page/iron-component-page.html">
+  <script>window.Polymer = {
+    dom: 'shadow',
+    lazyRegister: true,
+    useNativeCSSProperties: true,
+    noUrlSettings: true
+  };</script>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="msu-activitystream.html"/>
 
 </head>
-<body>
-  <!-- Note: if the main element for this repository doesn't
-       match the folder name, add a src="&lt;main-component&gt;.html" attribute,
-       where &lt;main-component&gt;.html" is a file that imports all of the
-       components you want documented. -->
-  <iron-component-page></iron-component-page>
+<body >
+<div id="PageOuterWrapper">
+  <header id="Masthead">
+    <div id="MastheadInner">
+      <div class="Logo">
+        <div>
+          <a href="http://www.missouristate.edu/">
+            <img src="//missouristate.info/images/2015/template/sgf-logo.png" width="226" height="87" alt="Missouri State University"/>
+          </a>
+        </div>
+      </div>
+      <nav>
+        <a href="#PageInnerWrapper" class="SkipNav">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Skip search and site index" width="1" height="1" />
+        </a>
+        <div id="MastheadControls">
+          <div class="BearPass">
+            <a>BearPass</a>
+          </div>
+          <div class="SiteIndex">
+            <a>A-Z</a>
+          </div>
+          <div class="Search">
+            <form action="http://search.missouristate.edu/" method="get">
+              <label for="Keywords">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Enter keyword:" width="1" height="1" />
+              </label><input type="search" name="q" id="Keywords" placeholder="Search" /><input type="image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="1" height="1" alt="Go" />
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <nav id="SearchContainer">
+    <div class="BearPassLogin"></div>
+    <div class="SiteIndex">
+      <a href="http://search.missouristate.edu/siteindex/a">a</a>
+      <a href="http://search.missouristate.edu/siteindex/b">b</a>
+      <a href="http://search.missouristate.edu/siteindex/c">c</a>
+      <a href="http://search.missouristate.edu/siteindex/d">d</a>
+      <a href="http://search.missouristate.edu/siteindex/e">e</a>
+      <a href="http://search.missouristate.edu/siteindex/f">f</a>
+      <a href="http://search.missouristate.edu/siteindex/g">g</a>
+      <a href="http://search.missouristate.edu/siteindex/h">h</a>
+      <a href="http://search.missouristate.edu/siteindex/i">i</a>
+      <a href="http://search.missouristate.edu/siteindex/j">j</a>
+      <a href="http://search.missouristate.edu/siteindex/k">k</a>
+      <a href="http://search.missouristate.edu/siteindex/l">l</a>
+      <a href="http://search.missouristate.edu/siteindex/m">m</a>
+      <a href="http://search.missouristate.edu/siteindex/n">n</a>
+      <a href="http://search.missouristate.edu/siteindex/o">o</a>
+      <a href="http://search.missouristate.edu/siteindex/p">p</a>
+      <a href="http://search.missouristate.edu/siteindex/q">q</a>
+      <a href="http://search.missouristate.edu/siteindex/r">r</a>
+      <a href="http://search.missouristate.edu/siteindex/s">s</a>
+      <a href="http://search.missouristate.edu/siteindex/t">t</a>
+      <a href="http://search.missouristate.edu/siteindex/u">u</a>
+      <a href="http://search.missouristate.edu/siteindex/v">v</a>
+      <a href="http://search.missouristate.edu/siteindex/w">w</a>
+      <a href="http://search.missouristate.edu/siteindex/x">x</a>
+      <a href="http://search.missouristate.edu/siteindex/y">y</a>
+      <a href="http://search.missouristate.edu/siteindex/z">z</a>
+    </div>
+  </nav>
+  <div id="PageInnerWrapper">
+    <div id="UnitMastheadWrapper" class="grid_container UnitMastheadWrapper Default">
+      <header id="UnitMasthead" class="UnitMasthead"><div class="SiteTitle">
+        <a href="https://github.com/ChadKillingsworth/msu-activitystream">Web Components Demo</a></div>
+      </header>
+      <nav class="Breadcrumb">
+        <div id="Breadcrumb">
+          <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="http://www.missouristate.edu/" itemprop="url"><span itemprop="title">Missouri State</span></a></span> &gt;
+          <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://github.com/ChadKillingsworth/msu-activitystream" itemprop="url"><span itemprop="title">Web Components Demo</span></a></span> &gt;
+          Activity Stream
+        </div>
+      </nav>
+      <div class="SiteBranding"></div>
+    </div>
+    <div class="grid_container MainContent">
+      <nav class="grid_fourth MainNav" id="MainNav">
+        <a href="#ContentColumn" class="SkipNav">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Skip page navigation" width="1" height="1" /></a>
+        <div class="grid_inner">
+          <div class="GlobalNav">
+            <nav class="ContentBlock">
+              <h2>Web Components Resources</h2>
+              <ul>
+                <li><a href="http://webcomponents.org/">WebComponents.org</a></li>
+                <li><a href="https://www.polymer-project.org">Polymer Project</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </nav>
+      <main id="ContentColumn" class="grid_threefourths ContentColumn">
+        <section class="Rowstart grid_whole">
+          <div class="grid_inner">
+            <h1>Activity Stream</h1>
+          </div>
+        </section>
+        <section class="Rowstart grid_whole">
+          <div class="grid_inner">
+            <msu-activitystream></msu-activitystream>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <footer class="PageFooter" id="PageFooter">
 
+    <div class="MYMS">
+      <a href="http://www.missouristate.edu/about/">
+        <img src="//missouristate.info/images/2016/template/myms-footer.png" alt="Make your Missouri statement" class="DisplayOnly"/>
+        <img src="//missouristate.info/images/2016/template/myms-feature.png" alt="Make your Missouri statement" class="PrintOnly"/>
+      </a>
+    </div>
+
+    <div class="Legal">
+      <div class="Row">
+        <ul>
+          <li>Last Modified:
+            <script type="text/javascript">missouristate.outputLastModifiedDate();</script>
+          </li>
+          <li>
+            <ul class="Sublist">
+              <li><a href="http://www.missouristate.edu/disclaimer/">Disclaimer</a></li>
+              <li><a href="http://www.missouristate.edu/campusservices/fedmaninfo.htm">Disclosures</a></li>
+              <li><a href="http://www.missouristate.edu/equity/nondiscrimination_statement.htm">EO/AA/M/F/Veterans/Disability</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="Row">
+        <ul>
+          <li>&copy; 2013 <a href="http://www.missouristate.edu/bog/">Board of Governors</a>, <span>Missouri State University</span></li>
+          <li><a href="https://github.com/ChadKillingsworth">Contact Information</a></li>
+        </ul>
+      </div>
+      <div class="Row PrintOnly">
+        <ul>
+          <li><script type="text/javascript">missouristate.outputDocumentLocation();</script></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
 </body>
 </html>

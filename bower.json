@@ -1,29 +1,5 @@
 {
-  "name": "msu-activitystream",
-  "version": "1.0.0",
-  "authors": [
-    "Chad Killingsworth <chadkillingsworth@gmail.com>"
-  ],
-  "description": "An element displaying activity from MSU social networks",
-  "keywords": [
-    "web-component",
-    "web-components",
-    "polymer",
-    "activitystream",
-    "missouristate"
-  ],
-  "main": "msu-activitystream.html",
-  "homepage": "https://github.com/chadkillingsworth/msu-activitystream/",
-  "ignore": [
-    "/.*",
-    "/test/",
-    "/demo/"
-  ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0"
-  },
-  "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "*"
+    "polymer": "https://github.com/Polymer/polymer/archive/v1.7.0.tar.gz"
   }
 }
